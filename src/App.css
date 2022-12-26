@@ -135,6 +135,7 @@ select {
   line-height: 18px;
   color: rgba(255,255,255,0.5);
 }
+
 .input-field .pswrd-cont {
   position: relative;
 }
@@ -148,6 +149,10 @@ select {
   right: 10px;
   color: rgba(255,255,255,0.5);
 }
+.input-field fieldset,.input-field fieldset:hover{
+  border: none !important;
+}
+.input-field .MuiSelect-select.MuiSelect-outlined.MuiSelect-multiple.MuiInputBase-input.MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input,
 .input-field .custom-input{
   display: block;
   font-size: 12px;
@@ -161,14 +166,39 @@ select {
   color: #fff;
   transition: 0.3s;
   outline: none;
+  min-height: 40px;
+  max-height: 40px;
 }
 .input-field .custom-input option{
   background-color: var(--bg-theme);
 }
 .input-field textarea.custom-input{
   height: 120px;
+  max-height: 120px;
 }
-.input-field .custom-input:focus{
+.input-field .select__control.css-13cymwt-control{
+  background-color: transparent !important;
+  padding: 0;
+  border: 1px solid rgba(43,53,83,1);
+}
+.input-field .select__control--is-focused{
+  border-color: #e14eca;
+}
+.input-field .select__value-container{
+  font-size: 12px
+}
+.input-field .select__multi-value{
+  width: fit-content;
+}
+
+.css-t3ipsp-control{
+  background-color: transparent !important;
+  box-shadow: none;
+}
+.input-field .custom-input[readonly]{
+
+}
+.input-field .custom-input:not([readonly]):focus{
   border-color: #e14eca;
 }
 .card-item button[type="submit"] {
@@ -191,6 +221,9 @@ select {
 
 .table-management{
   width: 100%;
+}
+.table-management .table-scroll{
+  max-height: 150px;
 }
 .table-management tr{
   display: flex;
@@ -302,6 +335,10 @@ select {
   color: rgba(255,255,255,0.6);
   margin: 0;
 }
+.table-management td h6 a{
+  color: inherit;
+  text-decoration: underline;
+}
 .table-management td .progress-value{
   color: #fff;
 }
@@ -324,4 +361,42 @@ select {
 }
 .table-management td .delete-btn{
   color: #fd5d93;
+}
+.svg circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  stroke: #666;
+  stroke-width: 4px;
+}
+.svg .bar {
+  /* stroke: #FF9F1E; */
+  stroke: #00f2c3;
+}
+.cont {
+  display: block;
+  height: 40px;
+  width: 40px;
+  margin: 7px auto;
+  box-shadow: 0 0 1em black;
+  border-radius: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.cont:after {
+  position: absolute;
+  display: block;
+  height: 40px;
+  width: 40px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: inset 0 0 1em black;
+  content: attr(data-pct)"%";
+  /* margin-top: -80px; */
+  /* margin-left: -80px; */
+  border-radius: 100%;
+  line-height: 40px;
+  font-size: 10px;
+  text-shadow: 0 0 0.5em black;
 }
