@@ -8,9 +8,20 @@ export default function CircularDeterminate(props) {
     const [progressColor, setProgressColor] = React.useState("rgba(255,255,255,0.6)");
 
     React.useEffect(() => {
+        // console.log(progress)
         return () => {
-            if (progress >= 100) {
-                setProgressColor('success')
+            if (progress >= 99) {
+                setTimeout(() => {
+                    console.log(props.restaurantDatabase)
+                    props.restaurantDatabase.map((dataItem)=>{
+                        if(props.itemId == dataItem.id){
+                            let tempItem = dataItem
+                            tempItem.completed = true
+                            // props.setRestaurantDatabase({ ...props.restaurantDatabase, tempItem })
+                        }
+                    })                    
+                    setProgressColor('success')
+                }, 500);
                 // props.itemId
             }
         }

@@ -2,20 +2,16 @@
 import React from 'react';
 import { nanoid } from 'nanoid'
 import Items from '../api/Items'
+import OrderInProgress from '../api/OrderInProgress';
 const Form = (props) => {
     const [formValue, setFormValue] = React.useState({ id: "", name: "", email: "", tableNo: "", amount: "", orderItem: "", duration: "", message: "", completed: false });
-    const orderNow = async (e) => {
+    const orderNow = (e) => {
         e.preventDefault();
         formValue.id = nanoid();
         const { id, name, email, tableNo, amount, orderItem, duration, message ,completed } = formValue;
-        let resData = await fetch("https://datastructure-indus-university-default-rtdb.firebaseio.com/customorder.json", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({id, name, email, tableNo, amount, orderItem, duration, message ,completed })
-        })
+        OrderInProgress.push({id, name, email, tableNo, amount, orderItem, duration, message ,completed })
         setFormValue({ id: "", name: "", email: "", tableNo: "", amount: "", orderItem: "", duration: "", message: "", completed: false })
+        console.log(formValue)
         props.fetchData();
         props.setOpen(true)
         setTimeout(() => {
@@ -34,7 +30,7 @@ const Form = (props) => {
                 })
             })
         }
-    }, [formValue])
+    }, [formValue.orderItem])
 
     let name, value;
     const setOrderValues = (e) => {
