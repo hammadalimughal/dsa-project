@@ -1,22 +1,40 @@
 
 import React from 'react';
-
+import { nanoid } from 'nanoid'
+import Items from '../api/Items'
 const Form = (props) => {
-    const [formValue, setFormValue] = React.useState({ name: "", email: "", tableNo: "", amount: "", orderItem: "", duration: "", message: "", completed: false });
+    const [formValue, setFormValue] = React.useState({ id: "", name: "", email: "", tableNo: "", amount: "", orderItem: "", duration: "", message: "", completed: false });
     const orderNow = async (e) => {
         e.preventDefault();
-        const { name, email, tableNo, amount, orderItem, duration, message } = formValue;
+        formValue.id = nanoid();
+        const { id, name, email, tableNo, amount, orderItem, duration, message ,completed } = formValue;
         let resData = await fetch("https://datastructure-indus-university-default-rtdb.firebaseio.com/customorder.json", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name, email, tableNo, amount, orderItem, duration, message })
+            body: JSON.stringify({id, name, email, tableNo, amount, orderItem, duration, message ,completed })
         })
-        setFormValue({ name: "", email: "", tableNo: "", amount: "", orderItem: "", duration: "", message: "", completed: false })
-        props.fetchData()
+        setFormValue({ id: "", name: "", email: "", tableNo: "", amount: "", orderItem: "", duration: "", message: "", completed: false })
+        props.fetchData();
+        props.setOpen(true)
+        setTimeout(() => {
+            props.setOpen(false)
+        }, 3000);
     }
 
+    React.useEffect(() => {
+        if (formValue.orderItem) {
+            let itemId = formValue.orderItem.split("-")[0]
+            Items.map((curItem) => {
+                curItem.items.map(cateItem => {
+                    if (itemId == cateItem.id) {
+                        setFormValue({ ...formValue, duration: cateItem.durationInSec })
+                    }
+                })
+            })
+        }
+    }, [formValue])
 
     let name, value;
     const setOrderValues = (e) => {
@@ -36,15 +54,21 @@ const Form = (props) => {
                     </div>
                     <div className='col-md-6 col-12'>
                         <div className="input-field">
-                            <label htmlFor="">Email *</label>
-                            <input onChange={setOrderValues} value={formValue.email} name="email" className="custom-input" required type="email" />
+                            <label htmlFor="">Amount *</label>
+                            <input onChange={setOrderValues} value={formValue.price} name="amount" className="custom-input" required type="number" />
+                        </div>
+                    </div>
+                    <div className='col-md-6 col-12'>
+                        <div className="input-field">
+                            <label htmlFor="">Duration *</label>
+                            <input onChange={setOrderValues} value={formValue.duration} name="duration" className="custom-input read-only" readOnly required type="text" />
                         </div>
                     </div>
                     <div className='col-md-6 col-12'>
                         <div className="input-field">
                             <label htmlFor="">Table No *</label>
                             <select onChange={setOrderValues} value={formValue.tableno} name="tableNo" className="custom-input" required>
-                                <option selected disabled>Select Table</option>
+                                <option defaultValue disabled>Select Table</option>
                                 <option value="Table # 01">Table # 01</option>
                                 <option value="Table # 02">Table # 02</option>
                                 <option value="Table # 03">Table # 03</option>
@@ -55,32 +79,32 @@ const Form = (props) => {
                             </select>
                         </div>
                     </div>
-                    <div className='col-md-6 col-12'>
+                    <div className='col-12'>
                         <div className="input-field">
-                            <label htmlFor="">Amount *</label>
-                            <input onChange={setOrderValues} value={formValue.price} name="amount" className="custom-input" required type="number" />
+                            <label htmlFor="">Email *</label>
+                            <input onChange={setOrderValues} value={formValue.email} name="email" className="custom-input" required type="email" />
                         </div>
                     </div>
                     <div className='col-12'>
                         <div className="input-field">
                             <label htmlFor="">Item *</label>
+                            
                             <select onChange={setOrderValues} value={formValue.SelectItem} name="orderItem" className="custom-input" required type="text">
-                                <optgroup label="Main Course">
-                                    <option value="Table # 01">BBQ Chicken</option>
-                                    <option value="Table # 02">Katsu Chicken</option>
-                                    <option value="Table # 03">Fried Chicken</option>
-                                    <option value="Table # 04">Asian Rings</option>
-                                    <option value="Table # 05">Italian Chicken</option>
-                                    <option value="Table # 06">Table # 06</option>
-                                    <option value="Table # 07">Table # 07</option>
-                                </optgroup>
+                                <option defaultValue disabled>Select Item</option>
+                                {
+                                    Items.map((curItem) => {
+                                        return (
+                                            <optgroup key={curItem.category} label={curItem.category}>
+                                                {curItem.items.map(cateItem => {
+                                                    return (
+                                                        <option key={cateItem.id} value={`${cateItem.id}-${cateItem.itemName}`}>{cateItem.itemName}</option>
+                                                    )
+                                                })}
+                                            </optgroup>
+                                        )
+                                    })
+                                }
                             </select>
-                        </div>
-                    </div>
-                    <div className='col-md-6 col-12'>
-                        <div className="input-field">
-                            <label htmlFor="">Duration *</label>
-                            <input onChange={setOrderValues} value={formValue.duration} name="duration" className="custom-input" readOnly required type="text" />
                         </div>
                     </div>
                     <div className='col-12'>

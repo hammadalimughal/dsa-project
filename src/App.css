@@ -169,8 +169,18 @@ select {
   min-height: 40px;
   max-height: 40px;
 }
+.input-field .custom-input.read-only{
+  cursor: default;
+}
+.input-field .custom-input optgroup{
+  background-color: var(--card-bg);
+}
 .input-field .custom-input option{
   background-color: var(--bg-theme);
+}
+.input-field .custom-input optgroup,
+.input-field .custom-input option{
+  padding: 3px;
 }
 .input-field textarea.custom-input{
   height: 120px;
@@ -400,3 +410,12 @@ select {
   font-size: 10px;
   text-shadow: 0 0 0.5em black;
 }
+
+/* alert css */
+.alert-container{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 450px;
+}
+/* alert css end */
